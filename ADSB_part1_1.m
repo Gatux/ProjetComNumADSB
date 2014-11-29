@@ -57,7 +57,7 @@ title('Representation des 25 premiers bits');
 eyediagram(sl(1:100*Fse), 3*Fse);
 
 %% Trace de la DSP
-figure, plot((1:Nfft)/Nfft -0.5, fftshift(abs(fft(sl, Nfft)).^2));
+figure, plot((1:Nfft)/Nfft -0.5, fftshift(abs(fft(sl-0.5, Nfft)).^2));
 %%  dsp calculee
 f=-Nfft/2:Nfft/2;
 plot(f,(3*Ts/16)*sinc(f*Ts/2).^2+ 1i * (3*Ts/16) * sinc(f*Ts/2) .* sinc(f*3/2*Ts));

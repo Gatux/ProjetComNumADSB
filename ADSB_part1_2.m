@@ -10,16 +10,17 @@ Ts = 1 / Ds;
 Fse = 20;       % Facteur de sur-echantillonnage
 Nfft = 512;     % Nombre de point pour la FFT
 
-N = 1000;       % Nombre de point de la simulation
-
-% Generation de la sequence aleatoire de bits
-bk = randi([0 1], 1, N);
+N = 1000;       % Nombre de trames de la simulation
+Nt = 112;       % Nombre de points par trame
 
 % Filtre de mise en forme
 p = [ -0.5 * ones(1, 0.5 * 10^-9 * fe) 0.5 * ones(1, 0.5 * 10^-9 * fe) ];
 
 % Filtre adapte
 p_adapt = [ 0.5 * ones(1, 0.5 * 10^-9 * fe) -0.5 * ones(1, 0.5 * 10^-9 * fe) ];
+
+% Generation de la sequence aleatoire de bits
+bk = randi([0 1], 1, N*Nt);
 
 %% Modulation PPM
 
@@ -57,19 +58,21 @@ bkr = bkr(1:end-1);
 % sigma(b).^2 = Eg.^2 * sigma(An).^2 / SNR
 % sigma(An).^2 = 1
 % Eg.^2 = sum(p.^2)^2 = 25
-% donc sigma(b).^2 = (25 * 112) / SNR
+% donc sigma(b).^2 = (25 * 1) / SNR
 
-varB = zeros(1, 10);
-r = zeros(1, 10);
-SNR_l = ones(1, 10);
-for n=1:10
-    SNR_l(n) = 10.^(n/10);
-    varB = (25*1)/(2*SNR_l(n)); % 2* SNR ?
+snr_max = 20;
+
+varB = zeros(1, snr_max+1);
+r = zeros(1, snr_max+1);
+SNR_l = ones(1, snr_max+1);
+for n=0:snr_max
+    SNR_l(n+1) = 10.^(n/10);
+    varB = (25*1)/(SNR_l(n+1));
     sigma = sqrt(varB);
-    yl = An + (sigma * randn(1,length(An)));
+    ylp = sl + (sigma * randn(1,length(sl)));
+    yl = ylp - 0.5;
     rl_t = conv(yl, p_adapt);
     
-    % Question 5
     rl_n = downsample(rl_t, Fse);
     Anr = rl_n;
     Anr(Anr >= 0) = 1;
@@ -77,16 +80,28 @@ for n=1:10
     b = Anr;
     b(b == -1) = 0;
     b(b == 1) = 1;
-    b = b(1:end-1);
-    r(n) = TEB(bk, b);
+    b = b(2:end-1);
+    [r(n+1), error] = TEB(bk, b);
+    if error <= 100
+       r(n+1) = 0; 
+    end
 end
-%% Affichage
+% Affichage
 figure;
-plot(r);
+plot(0:length(r)-1, r);
 title('TEB en fonction du SNR en db');
 xlabel('SNR en db'); ylabel('TEB');
 
+%%
 
+%Si ƒem est la fréquence de l’onde dans le référentiel de la source, alors le récepteur va recevoir une onde de fréquence ƒrec
+% fem = 10^9 Hz
+%frec = (c-vrec)/(c-vem) . fem;
+% fr
+(10^9/(10^9 - 900))*10^9;
+%1,0000009000008100087290078561071 
+
+% Variation de l'ordre de 900 Hz
 
 
 
