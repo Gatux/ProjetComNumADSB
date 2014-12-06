@@ -1,0 +1,7 @@
+function [ res ] = N_L( lat )
+
+    if lat == 0
+        res = 59
+
+end
+
