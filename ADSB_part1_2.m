@@ -1,8 +1,8 @@
 % Projet TS226
 % Maxime PETERLIN - Gabriel VERMEULEN
-%% Initialisation des variables
 clear all;
 close all;
+%% Initialisation des variables
 
 fe = 20 * 10^9; % Frequence d'echantillonage 20 MHz
 Ds = 1 * 10^9;  % Debit symbole 1MHz
@@ -88,7 +88,7 @@ for n=0:snr_max
 end
 % Affichage
 figure;
-plot(0:length(r)-1, r);
+plot(0:length(r)-1, log10(r));
 title('TEB en fonction du SNR en db');
 xlabel('SNR en db'); ylabel('TEB');
 
@@ -99,7 +99,7 @@ xlabel('SNR en db'); ylabel('TEB');
 %frec = (c-vrec)/(c-vem) . fem;
 % fr
 (10^9/(10^9 - 900))*10^9;
-%1,0000009000008100087290078561071 
+%1,0000009000008100087290078561071  * 1090 * 10^6
 
 % Variation de l'ordre de 900 Hz
 
