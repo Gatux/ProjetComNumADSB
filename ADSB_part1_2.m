@@ -4,8 +4,8 @@ clear all;
 close all;
 %% Initialisation des variables
 
-fe = 20 * 10^9; % Frequence d'echantillonage 20 MHz
-Ds = 1 * 10^9;  % Debit symbole 1MHz
+fe = 20 * 10^6; % Frequence d'echantillonage 20 MHz
+Ds = 1 * 10^6;  % Debit symbole 1MHz
 Ts = 1 / Ds;
 Fse = 20;       % Facteur de sur-echantillonnage
 Nfft = 512;     % Nombre de point pour la FFT
@@ -52,7 +52,6 @@ bkr = bkr(1:end-1);
 
 %% Calcul du taux d'erreur binaire
 
-% Relevé des données :
 % SNR = Eb/No = Eg.^2 * sigma(An).^2 / sigma(b).^2
 % SNR varie de 0 à 10db
 % sigma(b).^2 = Eg.^2 * sigma(An).^2 / SNR
