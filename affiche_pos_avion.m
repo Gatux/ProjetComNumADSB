@@ -18,9 +18,18 @@ ylabel('Lattitude en degré');
 hold on;
 
 %% Affichage d'un avion
-PLANE_LON = -0.402398; % Longitude de l'avion
-PLANE_LAT = 45.01234; % Latitude de l'avion
 
-Id_airplane='AF-1214'; % Nom de l'avion
-plot(PLANE_LON,PLANE_LAT,'+b','MarkerSize',8);
-text(PLANE_LON+0.05,PLANE_LAT,Id_airplane,'color','b');
+trame = load('projet_adsb/projet_adsb/trames_20141120.mat');
+
+l = length(trame.trames_20141120(1, :));
+
+registre = struct('adresse', [], 'format', [], 'type', [], 'nom', [], ...
+                  'altitude', [], 'timeFlag', [], 'cprFlag', [], ...
+                  'latitude', [], 'longitude', [], 'trajectoire', []);
+
+for i=1:l
+    registre = bit2registre(trame.trames_20141120(:, i), registre)
+     plane_pos_display(registre);
+end
+
+hold on

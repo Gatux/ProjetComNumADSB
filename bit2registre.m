@@ -1,8 +1,4 @@
-function [ registre ] = bit2registre( vect )
-
-    registre = struct('adresse', [], 'format', [], 'type', [], 'nom', [], ...
-                  'altitude', [], 'timeFlag', [], 'cprFlag', [], ...
-                  'latitude', [], 'longitude', [], 'trajectoire', []);
+function [ registre ] = bit2registre( vect, registre )
 
     if length(vect) ~= 112
         fprintf('La taille du vecteur est invalide.\n');
@@ -14,6 +10,9 @@ function [ registre ] = bit2registre( vect )
         if error ~= 0
            fprintf('La trame contient des erreurs.\n'); 
         else
+            if ~isempty(registre.longitude) && ~isempty(registre.latitude)
+                registre.trajectoire = [registre.longitude registre.latitude];
+            end
             elem = vect(1:5);
             DF_17 = [1 0 0 0 1];
             registre.format = bi2de(elem);
@@ -21,7 +20,7 @@ function [ registre ] = bit2registre( vect )
             if isequal(elem, DF_17) == 1
                 
                 % Extraction de l'adresse OACI de l'avion
-                registre.adresse = bi2de(vect(9:32));
+                registre.adresse = bi2de(fliplr(vect(9:32)));
                 
                 % Extraction du message ADSB
                 ADSB_m = vect(33:88);
@@ -91,21 +90,22 @@ function [ registre ] = bit2registre( vect )
                     % Extraction et calcul de l'altitude
                     alt = ADSB_m(9:20);
                     alt(8) = [];
+                    alt = fliplr(alt);
                     registre.altitude = 25*bi2de(alt) - 1000;
                    
                     % Extraction et calcul de la latitude
-                    r_lat = ADSB_m(23:39);
+                    r_lat = fliplr(ADSB_m(23:39));
                     LAT = bi2de(r_lat);
                     Nz = 15;
                     D_lati = 360/(4*Nz - registre.cprFlag);
                     
                     lat_ref = 44.806265;
                     Nb = 17;
-                    j = floor(lat_ref/D_lati) + floor(1/2 + mod(lat_ref, D_lati)/D_lati - LAT/(2^Nb));
+                    j = floor(lat_ref/D_lati) + floor(1/2 + my_mod(lat_ref, D_lati)/D_lati - LAT/(2^Nb));
                     registre.latitude = D_lati*(j+LAT/(2^Nb));
     
-                    % Extraction et calcul de la latitude
-                    r_lon = ADSB_m(40:56);
+                    % Extraction et calcul de la longitude
+                    r_lon = fliplr(ADSB_m(40:56));
                     LON = bi2de(r_lon);
                     
                     n_l = N_L(registre.latitude) - registre.cprFlag;
@@ -115,8 +115,8 @@ function [ registre ] = bit2registre( vect )
                         D_loni = 360;
                     end
                     
-                    lon_ref = 0.606585;
-                    m = floor(lon_ref/D_loni) + floor(1/2 + mod(lon_ref, D_loni)/D_loni - LON/(2^Nb));
+                    lon_ref = -0.606585;
+                    m = floor(lon_ref/D_loni) + floor(1/2 + my_mod(lon_ref, D_loni)/D_loni - LON/(2^Nb));
                     registre.longitude = D_loni*(m+LON/(2^Nb));
                      
                 end
