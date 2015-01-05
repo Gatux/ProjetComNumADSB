@@ -7,7 +7,7 @@ function [ delta_t, delta_f ] = estimation( yl, fe)
  
     r = zeros(length(df), 2);
     l = length(df);
-    j = 1;
+
     for i=1:l
         [r(i,1), r(i,2)] = max(conv(yl*exp(-1i*2*pi*df(i)), fliplr(sps)));
         % Colonne 1 = valeur, Colonne 2 = delta_t

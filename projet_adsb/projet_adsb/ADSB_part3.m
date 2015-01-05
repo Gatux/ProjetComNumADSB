@@ -76,6 +76,8 @@ while my_input_stream.available % tant qu'on reçoit quelque chose on boucle
     int16Buffer = typecast(int8Buffer,'int16'); % On fait la conversion de 2 entiers 8 bits à 1 entier 16 bits
     cplxBuffer = double(int16Buffer(1:2:end)) + 1i *double(int16Buffer(2:2:end)); % Les voies I et Q sont entrelacées, on désentrelace pour avoir le buffer complexe.
     %% Code utilisateur
+    
+    
 end
 
 %% fermeture des flux
