@@ -121,8 +121,8 @@ function [ registre ] = bit2registre( vect, registre )
                      
                 end
             end
-        end
-        
+            registre
+        end 
     end
 
 end
