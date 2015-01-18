@@ -58,15 +58,15 @@ Gabriel VERMEULEN - \texttt{gabriel@vermeulen.email} \\\\{ENSEIRB-MATMECA, Borde
 	
 	$s_l$ peut également s'exprimer en fonction des symboles émis $A_k$ et de la forme d'onde biphase donnée ci-dessous.
 	% Figure de la forme d'onde biphase
-	\begin{align}
+	\begin{align*}
 		s_l(t) &= \sum \limits_{k \in \mathbb{Z}} p_{b_k}(t_kT_s) \\
 		&= \sum \limits_{\substack{k \in \mathbb{Z}\\b_k = 0}} p_0(t-kT_s) + \sum \limits_{\substack{k \in \mathbb{Z}\\b_k = 1}} p_1(t-kT_s)\\
 		&= 0.5 + \sum \limits_{b_k = 0} p(t-kT_s) - \sum \limits_{b_k = 1} p(t-kT_s)\\
 		s_l(t) &= 0.5 + \sum \limits_{b_k = 0} A_k p(t-kT_s) + \sum \limits_{b_k = 1} A_k p(t-kT_s)
-	\end{align}
+	\end{align*}
 Finalement, on obtient :
 	\[
-	\boxed{s_l(t) = \0.5 + \sum \limits_{k \in \mathbb{Z}} A_k p(t-kT_s) }	
+	\boxed{s_l(t) = 0.5 + \sum \limits_{k \in \mathbb{Z}} A_k p(t-kT_s) }	
 	\]
 avec 
 	\[
@@ -79,11 +79,129 @@ avec
 	\]
 	\newline
 	
-	En réception, on aura les 
+	En réception, on aura les filtres adaptés $p_0^*$ et $p_1^*$ qui ont pour but de maximiser le SNR. De plus, afin de simplifier l'étape de décision et la rendre plus fiable, il faut supprimer l'interférence entre symboles, ce qui est rendu possible si les couples de filtres $(p_0(t), p_0^*(-t))$ et $(p_1(t), p_1^*(-t))$ respectent le critère de Nyquist :
+	\[
+		\sum \limits_{n=-\infty}^\infty P(f - \frac{n}{T_b}) = T_b
+	\]
+	Avec $T_b = \frac{T_s}{2}$ le temps de l'impulsion et $P$ la transformée de Fourier du filtre en réception.\newline
+	Dans notre cas, les filtres en réception $p_0^*(-t)$ et $p_1^*(-t)$ sont, à un décalage temporel près, des portes de largeur $\frac{T_s}{2}$, ainsi leur transformée de Fourier est $\frac{T_s}{2}sinc(f\frac{T_s}{2})$. On remarque que pour $f = \frac{n}{T_b}$ avec $n \in \mathbb{n}$ on a $sinc(f\frac{T_s}{2}) = 0$. Ainsi, le critère de Nyquist est vérifié pour les deux filtres en réception.
+	\[
+		\boxed{\sum \limits_{n=-\infty}^\infty P(f - \frac{n}{T_b}) = \frac{Ts}{2}sinc(0) = \frac{Ts}{2}}
+	\]
 	
-	
+On veut à présent calculer la DSP du signal $s_l$ à l'aide de l'autocorrelation moyennée de ce dernier. On commence par calculer le moment d'ordre 1 de $s_l$ :
+\begin{align*}
+	m_{s_l}(t) &= E[s_l(t)] = E[0.5 + \sum \limits_{k \in \mathbb{Z}} A_k p(t-kT_s)]\\
+	m_{s_l}(t) &= 0.5 + \sum \limits_{k \in \mathbb{Z}} \underbrace{E[A_k]}_{0.5\cdot 1 + 0.5 \cdot -1} p(t-kT_s)
+\end{align*}
+\[
+	m_{s_l}(t) = 0.5
+\]
+On remarque que ce moment d'ordre 1 est indépendant du temps.\\
+
+A présent nous allons calculer l'autocorrélation du signal $s_l$ : 
+\begin{align*}
+	E[s_l(t)s_l^*(t-\tau)] &= \sum \limits_{k} E[A^2_k p(t-kT_s)p(t-\tau-kT_s)]\\
+	&= \sum \limits_{k, k'} E[A_k p(t-kT_s) \cdot A_{k'}p(t-\tau-kT_s)]
+\end{align*}
+
+On sait que $p(t-kT_s) \neq 0$, si
+\[
+	0 < t-kT_s < T_s \Leftrightarrow \frac{t}{T_s}-1 < k < \frac{t}{T_s}
+\]
+
+Comme $k \in \mathbb{Z}$, on en déduit que $k = \left\lfloor \frac{t}{T_s} \right\rfloor$
+Ainsi, 
+\begin{align*}
+	E[s_l(t)s_l^*(t-\tau)] &= E[A_k]E[A_k']p(t- \left\lfloor \frac{t}{T_s} \right\rfloor T_s) p(t-\tau- \left\lfloor \frac{t-\tau}{T_s} \right\rfloor T_s)\\
+\end{align*}
+
+Finalement,
+\[
+\boxed{R_{s_l}(t, \tau) = 
+	\begin{cases}
+		p(t- \left\lfloor \frac{t}{T_s} \right\rfloor T_s) p(t-\tau- \left\lfloor \frac{t-\tau}{T_s} \right\rfloor T_s)\text{, si }\left\lfloor \frac{t}{T_s} \right\rfloor=\left\lfloor \frac{t-\tau}{T_s} \right\rfloor\\
+		0\text{, si }\left\lfloor \frac{t}{T_s} \right\rfloor \neq \left\lfloor \frac{t-\tau}{T_s} \right\rfloor
+	\end{cases}}
+\]
+
+Nous allons maintenant montrer que le signal est cyclo-stationnaire :
+\[
+	R_{s_l}(t+T_s, \tau) = 
+	\begin{cases}
+		p(t + T_s- \left\lfloor \frac{t+ T_s}{T_s} \right\rfloor T_s) p(t+ T_s-\tau- \left\lfloor \frac{t+ T_s-\tau}{T_s} \right\rfloor T_s)\text{, si }\left\lfloor \frac{t+ T_s}{T_s} \right\rfloor=\left\lfloor \frac{t+ T_s-\tau}{T_s} \right\rfloor\\
+		0\text{, si }\left\lfloor \frac{t+ T_s}{T_s} \right\rfloor \neq \left\lfloor \frac{t+ T_s-\tau}{T_s} \right\rfloor
+	\end{cases}}
+\]
+\[
+	R_{s_l}(t+T_s, \tau) = 
+	\begin{cases}
+		p(t + T_s -T_s- \left\lfloor \frac{t}{T_s} \right\rfloor T_s) p(t+ T_s-T_s-\tau- \left\lfloor \frac{t-\tau}{T_s} \right\rfloor T_s)\text{, si }\left\lfloor \frac{t}{T_s} \right\rfloor=\left\lfloor \frac{t-\tau}{T_s} \right\rfloor\\
+		0\text{, si }\left\lfloor \frac{t}{T_s} \right\rfloor \neq \left\lfloor \frac{t-\tau}{T_s} \right\rfloor
+	\end{cases}}
+\]
+On a alors :
+\[
+	\boxed{R_{s_l}(t+T_s, \tau) = R_{s_l}(t, \tau)}
+\]
+De plus, on a vu que le moment d'ordre 1 est indépendant du temps, le signal $s_l$ est bien cyclo-stationnaire.
+
+Nous pouvons à présent calculer l'autocorrélation moyennée du signal $s_l$. Ainsi, pour $\tau \in [0, T_s]$, on a :
+\begin{align*}
+	\tilde{R}_{s_l}(\tau) &= \frac{1}{T_s} \int \limits_0^{T_s} R_{s_l}(t, \tau) dt\\
+	&= \frac{1}{T_s} \int \limits_0^{T_s} p(t- \left\lfloor \frac{t}{T_s} \right\rfloor T_s) p(t-\tau- \left\lfloor \frac{t-\tau}{T_s} \right\rfloor T_s) dt\\
+\end{align*}
+
+Si $\tau < \frac{T_s}{2}$,
+\begin{align*}
+	\tilde{R}_{s_l}(\tau) &= \frac{1}{T_s} \int \limits_0^{\frac{T_s}{2}} \frac{1}{4} dt - \frac{1}{T_s} \int \limits_{\frac{T_s}{2}}^{\frac{T_s}{2} + \tau} \frac{1}{4} dt + \frac{1}{T_s} \int \limits_{\frac{T_s}{2} + \tau}^{T_s} \frac{1}{4} dt\\
+	&= \frac{1}{4} - \frac{3\tau}{4T_s}
+\end{align*}
+
+Si $\frac{T_s}{2} < \tau < T_s$,
+\begin{align*}
+	\tilde{R}_{s_l}(\tau) &= - \frac{1}{T_s} \int \limits_{\tau}^{T_s} \frac{1}{4} dt\\
+	&= \frac{\tau}{4T_s} - \frac{1}{4}
+\end{align*}
+
+En résumé, on a pour $\tau \geq 0$
+\[
+\boxed{
+	\tilde{R}_{s_l}(\tau) =
+	\begin{cases}
+		\frac{1}{4} - \frac{3\tau}{4T_s}\text{, si }0 \leq \tau < \frac{T_s}{2}\\
+		\frac{\tau}{4T_s} - \frac{1}{4}\text{, si }\frac{T_s}{2} \leq \tau < T_s\\
+		0\text{, sinon}
+	\end{cases}
+	}
+\]
+%figure du tracé de R_sl
+
+Calculons à présent la densité spectrale de puissance $\Gamma_{s_l}$ du signal $s_l$.
+On a 
+\[
+	p(t) = -\frac{1}{2}\Pi_{\frac{T_s}{2}}(t-\frac{T_s}{4}) + \frac{1}{2}\Pi(t-\frac{3T_s}{4})
+\]
+Ainsi, la transformée de Fourier s'exprime de la manière suivante :
+\begin{align*}
+	P(f) &= \frac{1}{2}\frac{T_s}{2}sinc(f\frac{T_s}{2})e^{-j2\pi f \frac{T_s}{4}}+ \frac{1}{2}\frac{T_s}{2}sinc(f\frac{T_s}{2})e^{-j2\pi f \frac{3T_s}{4}}\\
+	&= \frac{T_s}{4} sinc(f\frac{T_s}{2})[e^{-j2\pi f \frac{3T_s}{4}} - e^{-j2\pi f \frac{T_s}{4}}]
+\end{align*}
+La DSP a alors l'expression suivante :
+\begin{align*}
+	\Gamma_{s_l} &=  | P(f) |^2 = \frac{T_s^2}{16}sinc^2(f\frac{T_s}{2})[-2 j sin(\pi f \frac{T_s}{2})]^2\\
+	&= \frac{T_s^2}{16}sinc^2(f\frac{T_s}{2})[4 sin^2(\pi f \frac{T_s}{2})]\\
+\end{align*}
+\[
+	\boxed{
+	\Gamma_{s_l} = \frac{T_s^2}{4}sinc^2(f\frac{T_s}{2})sin^2(\pi f \frac{T_s}{2})}
+\]
+
+
 
 \section{Étude algorithmique}
+
+
 
 \section{Implémentation sous \textsc{MATLAB}}
 
