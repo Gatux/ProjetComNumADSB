@@ -20,11 +20,11 @@ function [ registre ] = bit2registre( vect, registre )
             if isequal(elem, DF_17) == 1
                 
                 % Extraction de l'adresse OACI de l'avion
-                registre.adresse = bi2de(fliplr(vect(9:32)));
+                registre.adresse = dec2hex(bi2de(fliplr(vect(9:32))));
                 
                 % Extraction du message ADSB
                 ADSB_m = vect(33:88);
-                FTC = bi2de(ADSB_m(1:5));
+                FTC = bi2de(fliplr(ADSB_m(1:5)));
                 registre.type = FTC;
                 
                 if 1 <= FTC && FTC <= 4
