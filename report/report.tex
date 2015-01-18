@@ -198,10 +198,50 @@ La DSP a alors l'expression suivante :
 \]
 
 
+Afin de synchroniser temporellement et fréquentiellement le signal reçu (induit respectivement par un délais de propagation et par l'effet Doppler), on calcule le maximum de la corrélation suivante.
+\[
+	\rho (\delta'_t, \delta'_f) = \frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}
+\] 
+
+Les décalages temporels et fréquentiels sont réalisés en prennant le couple $(\hat{\delta}_t, \hat{\delta}_f)$ tel que
+\[
+	(\hat{\delta}_t, \hat{\delta}_f) = arg\max \limits_{(\delta'_t, \delta'_f)} |\rho (\delta'_t, \delta'_f)|
+\]
+
+Grâce au théorème de Cauchy-Schwarz, on montre que $|\rho (\delta'_t, \delta'_f)| \leq 1$.
+En effet, 
+\[
+	\frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }} \leq \frac{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }} \leq 1
+\]
+avec égalité lorsque $y_l = \lambda s_p$
+
+
 
 \section{Étude algorithmique}
 
 
+Une fois que les buffers reçus ont été démodulés et synchronisés en temps et en fréquence, on peut extraire les trames ADS-B dont nous allons à présent expliquer le décodage.\newline
+Les trames ont une longueur de 120 bits ayant la structure suivante :\newline
+\begin{itemize}
+	\item Préambule $\rightarrow$ 8 bits\\
+	\item Format de la voix descendante $\rightarrow$ 5 bits\\
+	\item Capacité $\rightarrow$ 3 bits\\
+	\item Adresse OACI $\rightarrow$ 24 bits\\
+	\item Données ADS-B $\rightarrow$ 56 bits\\
+	\item Contrôle de parités $\rightarrow$ 24 bits\\
+\end{itemize}
+\newline
+
+Tout d'abord, on vérifie que la trame est correcte grâce au CRC de polynôme générateur 
+\[
+	p(x) = x^{24} + x^{23} + x^{22} + x^{21} + x^{20} + x^{19} + x^{18} + x^{17} + x^{16} + x^{15} + x^{14} + x^{13} + x^{12} + x^{12} + x^{10} + x^3 + 1
+\]
+S'il n'y a pas d'erreur, on récupère les 5 bits suivant le préambule afin de connaître le format de la voie descendante (on ne traitera que les trames avec \textbf{DF = 17}).\newline
+Ensuite, on décode l'adresse OACI de l'appareil qui nous permettra de faire le lien entre les différentes trames reçues, car elle est propre à chaque avion (l'adresse est codée sur 24 bits et se trouve à la position 16 dans la trame).\newline
+On termine par le décodage du message contenant les données transportées par la trame. Les 5 premiers bits du message permettent de connaître le format des données envoyées (FTC). On ne s'intéresse qu'aux valeurs de FTC comprises entre 1 et 4 (pour les messages d'identification) et entre 9 et 22 (en excluant la valeur 19 pour les messages de position en vol).\newline
+\newline
+
+Pour les messages d'identification, on décode les 8 caractères de l'identifiant qui sont codés sur 6 bits chacun. Pour les messages de position en vol, on décode l'altitude qui est codée sur 12 bits, la latitude et la longitude qui sont codées sur 17 bits.
 
 \section{Implémentation sous \textsc{MATLAB}}
 
