@@ -10,7 +10,7 @@ Ts = 1 / Ds;
 Fse = 20;       % Facteur de sur-echantillonnage
 Nfft = 512;     % Nombre de point pour la FFT
 
-N = 100;       % Nombre de trames de la simulation
+N = 200;       % Nombre de trames de la simulation
 Nt = 112;       % Nombre de points par trame
 
 % Filtre de mise en forme
@@ -48,11 +48,15 @@ for n=0:snr_max
     pre = kron([1 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 ], ones(N, Fse / 2));
     sl2 = [ pre sl ];
     l = length(sl2);
+
+    % Ajout de bruit
+    sl2 = sl2 + sigma * randn(N, l);
+    fprintf('sl2 ');
     
     % Ajout de delta_t
     sl3 = zeros(N, l+100);
     for i=1:N
-        delta_t = randi([0 1], 1, randi([0 100]));
+        delta_t = [1 0 1 0 1];%randi([0 1], 1, randi([0 100]));
         d(i, 1) = length(delta_t);
         temp = [ delta_t sl2(i, :) ];
         sl3(i, 1:length(temp)) = temp;
@@ -60,14 +64,10 @@ for n=0:snr_max
     fprintf('sl3 ');
     
     % Ajout de delta_f
-    delta_f = 10 * randi([-100 100], N, 1); % +- 1000 Hz avec un pas de 100Hz
+    delta_f = ones(N, 1);%10 * randi([-100 100], N, 1); % +- 1000 Hz avec un pas de 100Hz
     d(:,2) = delta_f;
     expm = exp(-1i * 2 * pi * 1/fe * kron(delta_f, ones(1, length(sl3))));
     sl4 = sl3 .* expm;
-    fprintf('sl4 ');
-    
-    % Ajout de bruit
-    sl4 = sl4 + sigma * randn(N, length(sl4));
     fprintf('sl4 ');
     
     l = length(sl4);
@@ -76,7 +76,7 @@ for n=0:snr_max
     yl1 = sl4;
        
     % Estimation de delta_t et delta_f
-    [e_delta_t, e_delta_f] = estimation(yl1, fe);
+    [e_delta_t, e_delta_f] = estimation(yl1, fe, Fse, Nt);
     
     yl2 = zeros(N, Nt*Fse);
     lsp = length(pre);

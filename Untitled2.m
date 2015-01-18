@@ -315,7 +315,8 @@ for i=7:7
     registres = FOVET(registres, list_cplx_buffers(i,:), 4e6, 1e6, -0.606585, 44.806265);
 end
 
-
+%%
+for k=1:length(
 
 
 

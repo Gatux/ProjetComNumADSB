@@ -1,0 +1,112 @@
+% Partie 2
+\subsection{Chaîne de transmission}
+
+Le but de cette partie est de simuler la chaîne de transmission de la modulation PPM.\\
+Tout d'abord pour simuler la modulation PPM, il faut générer un message binaire aléatoire. Ce dernier est ensuite transformé ensuite en symbole { -1, 1 } puis est sur-échantillonné. Enfin on applique le filtre de mise en forme suivent ainsi qu'un décalage d'amplitude de $+0.5$.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/p.png}
+			\caption{Filtre de mise en forme}
+			\label{p}
+\end{figure}
+
+Le résultat obtenue est le signal $s_l(t)$ qui corresponds à la sortie du bloc d'émission.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/sl.png}
+			\caption{Tracé de $s_l(t)$ pour les 25 premier bits}
+			\label{sl}
+\end{figure}
+
+Le diagramme de l’œil nous permet de vérifié qu'il n'a aucun défaut de synchronisation, de distorsion ou de gigue. Le tracé suivant est fait avant émission, il n'y a donc aucun défaut :
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/eye.png}
+			\caption{Diagramme de l’œil pour les 100 premier bits}
+			\label{eye}
+\end{figure}
+
+La densité spectralle de puissance du signal nous permet de voir la répartition fréquentielle de la puissance du signal. Un tracé théorique et réel est présenté sur la figure suivante. On peut remarqué outre le décalage d'amplitude entre les deux courbes, le fait que le signal réel aléatoire résultant d'une seule réalisation engendre une courbe moins lissée que celle théorique.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/dsp.png}
+			\caption{Tracé théorique et réel de la DSP de $s_l(t)$}
+			\label{dsp}
+\end{figure}
+
+Il sera considérer que le canal se comporte comme un filtre passe-tout.\\
+A la réception le signal récupéré est constitué du signal émis auquel est ajouté un bruit de réception modélisé par un bruit blanc gaussien centré en 0.\\
+Tout d'abord un décalage d'amplitude  de $-0.5$ est appliqué au signal. Ensuite ce dernier est filtré par un filtre adapté dont voici le tracé :
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/padapt.png}
+			\caption{Filtre adapté}
+			\label{padapt}
+\end{figure}
+
+Il ne reste qu'à sous-échantillonner au rythme du temps symbole et à effectuer la décision. Le message est ainsi récupéré.
+
+\subsection{Etude du taux d'erreur binaire en fonction du SNR}
+
+L'étude du lien entre le taux d'erreur binaire et du ratio signal sur bruit permet de mesurer les performances de la chaîne de transmission PPM malgré l'ajout d'un bruit blanc gaussien centré au signal émis. On peut observer le décalage entre la courbe théorique et la courbe réelle.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/snr_teb1.png}
+			\caption{Courbes réelles et théoriques du TEB en fonction du SNR en db}
+			\label{snr_teb1}
+\end{figure}
+
+\subsection{Synchronisation en temps et en fréquence}
+
+\subsection{Etude du taux d'erreur binaire en fonction du SNR}
+
+Afin de traité le cas de la synchronisation temporelle et fréquentielle, il faut modifier la chaîne de transmission.\\
+Dans le bloc d'émission, il suffit d'ajouter le préambule au signal de sortie.\\
+Avant d'ajout du bruit blanc gaussien centré au signal, il artificiellement désynchroniser le signal. Cela est fait en ajoutant des bits aléatoire avant le signal et en le multipliant par une exponentielle complexe.\\
+Le bloc de réception se voit ajouter le calcule de la fonction permettant d'estimer les deux paramètres delta_t et delta_f. Il devient alors possible de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[scale=0.6]{img/snr_teb2.png}
+			\caption{Courbes réelles et théoriques du TEB en fonction du SNR en db}
+			\label{snr_teb2}
+\end{figure}
+
+
+
+% Q16
+Lorsqu'un avion se déplace à 900 km/h par rapport au récepteur au sol qui ne bouge pas, son déplacement induit un décalages de fréquence perçu par le récepteur. Cet phénomène porte le nom d'effet Doppler. Il est possible d'estimer ce décalage de fréquence grâce à la formule qui suit :
+
+% FORMULE f_rec = ( c - v_rec ) / ( c - v_em ) * f_em
+% avec f_rec la fréquence reçu, f_em la fréquence émise, v_rec la vitesse du recepteur, v_em la vitesse de l'éméteur et c la vitesse de la lumière
+
+% On considère que La vitesse du récepteur est nul, que la vitesse de l'avion par rapport au recepteur est au maximum +- 900 km/h et que la vitesse de la lumière est égale à .... Ainsi on obtient que le décalage en fréquence maximum est de 900 Hz (a préciser).
+
+
+% Implémentation
+
+\subsection{Bloc d'émission}
+
+La génération aléatoire de message s'effectue simplement avec la fonction $randi$ en précisant la taille de la matrice à générer, et l'ensemble { 0, 1 } correspondant aux bits.\\
+Ensuite l'association bit/symbole se fait avec un simple calcul mathématique et le sur-échantillonnage se fait via la fonction $upsample$.\\
+Enfin, l'utilisation de la fonction $conv$ permet d'appliquer le filtre de mise en forme au signal.\\
+Optionnellement, l'ajout de préambule se fait avec une concaténation de vecteurs.
+
+\subsection{Canal}
+
+Le canal est considéré comme un filtre passe-tout. Il ne change donc pas le signal émis.\\
+Afin de désynchroniser artificiellement le signal, il faut ajouter au signal une séquence aléatoire de bits généré avec $randi$, et multiplié chaque termes par une exponentielle complexe, de fréquence aléatoire déterminé par la fonction $randi$.
+
+\subsection{Bloc de réception}
+
+La première chose à faire est d'estimer les paramètres delta_t et delta_f. Pour ce faire, une boucle calcul pour un delta_f variant de $-1000$ Hz à $1000 Hz$ la convolution entre le signal multiplié par une exponentielle complexe de fréquence delta_f et le préambule. On recherche ensuite le maximum de cette convolution avec la fonction $max$ ce qui nous permet d'obtenir delta_f et delta_t.\\
+On peut ainsi compenser les décalages temporel et fréquentiel et sélectionner les $112*Fse$ point traduisant une trame (Fse étant le ratio fréquence d’échantillonnage sur fréquence du débit symbole).\\
+Il reste a utiliser la fonction $conv$ pour appliquer le filtre adapté, puis à effectuer une simple condition supérieur à pour la décision et on obtient le message démodulé.\\
+
+\subsection{}

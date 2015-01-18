@@ -1,18 +1,28 @@
-function [ delta_t, delta_f ] = estimation( yl, fe)
+function [ delta_t, delta_f, debug ] = estimation( yl, fe)
     
     sp_t = [ 1 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 ];
     sps = kron(sp_t, ones(1,0.5 * 10^-6 * fe));
     
-    df = -1000:1000; % +- 1000 Hz de recherche
+    df = -1000:10:1000; % +- 100 Hz de recherche
  
-    r = zeros(length(df), 2);
+    [N, ls] = size(yl);
+    
     l = length(df);
+    c = zeros(N, l);
+    dc = zeros(N, l);
 
     for i=1:l
-        [r(i,1), r(i,2)] = max(conv(yl*exp(-1i*2*pi*df(i)), fliplr(sps)));
-        % Colonne 1 = valeur, Colonne 2 = delta_t
+        [c(:, i), dc(:,i)] = max(conv2(real(yl*exp(-1i*2*pi*1/fe*df(i))), fliplr(sps)), [], 2);
+        % valeur, delta_t
     end
-    [~, delta_f] = max(r(:,1));
-    delta_t = r(delta_f, 2);
-    delta_f = delta_f - 1001;
+    [~, pos] = max(c, [], 2);
+    
+    l = length(pos);
+    lsp = length(sps);
+    delta_t = zeros(l, 1);
+    for i=1:l
+        delta_t(i, 1) = dc(i, pos(i))  - lsp;
+    end
+    delta_f = df(pos)';
+    debug = {c, dc, pos};
 end

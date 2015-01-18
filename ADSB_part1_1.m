@@ -23,7 +23,7 @@ p_adapt = [ 0.5 * ones(1, 0.5 * 10^-6 * fe) -0.5 * ones(1, 0.5 * 10^-6 * fe) ];
 
 %% Modulation PPM
 
-% Association bit->symboles et sur-echantillonage
+% Association bit->symboles et sur-echantillonnage
 An = upsample(bk*2 - 1, Fse);
 
 % Filtrage de mis en forme
@@ -40,7 +40,7 @@ yl = ylp -0.5;
 % Filtre adapte
 rsk = conv(yl, p_adapt);
 
-% Sous echantillonage
+% Sous echantillonnage
 rk = downsample(rsk(Fse:length(rsk)), Fse);
 
 % Decision
@@ -50,21 +50,25 @@ bkr(bkr<0) = 0;
 bkr = bkr(1:end-1);
 
 %% Affichage des 25 premiers bits de sl
-figure, plot(sl(1:25*Fse));
+figure, plot((0:25*Fse-1)/Fse, sl(1:25*Fse));
 title('Representation des 25 premiers bits');
+xlabel('Temps (µs)');
+ylabel('Amplitude');
 
-%% Diagramme de l'oeil de duree 2*Ts pour les 100 premiers buts envoyes
+%% Diagramme de l'oeil de duree 2*Ts pour les 100 premiers bits envoyes
 eyediagram(sl(1:100*Fse), 3*Fse);
 
 %% Trace de la DSP
-figure, plot((1:Nfft)/Nfft -0.5, fftshift(abs(fft(sl-0.5, Nfft)).^2));
-%%  dsp calculee
-f=-Nfft/2:Nfft/2;
-plot(f,(3*Ts/16)*sinc(f*Ts/2).^2+ 1i * (3*Ts/16) * sinc(f*Ts/2) .* sinc(f*3/2*Ts));
-
-
-
-
+figure, plot((1:Nfft)/Nfft -0.5, fftshift(abs(fft(sl-0.5, Nfft)).^2)/Nfft^2);
+title('DSP du signal sl(t)');
+xlabel('Fréquences normalisée');
+ylabel('Amplitude');
+hold on;
+%  dsp calculee
+f=(-fe/2):fe/Nfft:fe/2;
+f=f(1:end-1);
+DSP_c = Ts/4*sinc(f*Ts/2).*(exp(-1i*pi*f*3*Ts/2) - exp(-1i*pi*f*Ts/2));
+plot((1:Nfft)/Nfft -0.5, abs(5e4*DSP_c), 'r');
 
 
 

@@ -85,7 +85,7 @@ title('TEB en fonction du SNR en db');
 xlabel('SNR en db'); ylabel('TEB');
 hold on;
 % Pb theorique
-plot(0:length(r)-1, log10(1/2*erfc(sqrt(SNR_l))),'r');
+plot(0:length(r)-1, log10(1/2*erfc(sqrt(0:length(r)-1))));
 
 %%
 

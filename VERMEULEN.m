@@ -1,4 +1,4 @@
-function [ RegOut ] = VERMEULEN( RegIn, Buffer, Fe, Ds, RefLON, RefLAT )
+function [ RegOut] = VERMEULEN( RegIn, Buffer, Fe, Ds, RefLON, RefLAT )
 
 % registre = VERMEULEN(registre, list_cplx_buffers(7,:), 4e6, 1e6, -0.606585, 44.806265);
 %registre = FOVET(registre, list_cplx_buffers(7,:), 4e6, 1e6, -0.606585, 44.806265);
@@ -11,12 +11,26 @@ function [ RegOut ] = VERMEULEN( RegIn, Buffer, Fe, Ds, RefLON, RefLAT )
     absBuffer = abs(Buffer);
     p_adapt = [ -0.5 * ones(1, 0.5 * 10^-6 * Fe) 0.5 * ones(1, 0.5 * 10^-6 * Fe) ];
     
+    
+    %if(isempty(RegOut))
+        RegOut = struct('adresse', [], 'format', [0], 'type', [], 'nom', [], ...
+                  'altitude', [], 'timeFlag', [], 'cprFlag', [], ...
+                  'latitude', [], 'longitude', [], 'trajectoire', []);
+    %end
+        
     % Localisation des preambules
-    r = conv(absBuffer, fliplr(sp_t)) ./ (sqrt(sum(abs(sp_t).^2)).*sqrt(conv(abs(absBuffer).^2, ones(1,8*10^-6 * Fe))));
+    r = conv(absBuffer(1:end-121*Fse), fliplr(sp_t)) ./ (sqrt(sum(abs(sp_t).^2)).*sqrt(conv(abs(absBuffer(1:end-121*Fse)).^2, ones(1,8*10^-6 * Fe))));
     positions = find(r > 0.75);
     
-    [fenetres, offset] = meshgrid(1:120*Fse, positions);
+    [fenetres, offset] = meshgrid(lsp+1:120*Fse, positions);
     fenetres = offset + fenetres;
+    
+    %lb = length(absBuffer);
+    %for j=1:length(fenetres(:,1))
+    %    if(fenetres(j, end) > lb)
+    %        fenetres(j,:) = [];
+    %    end
+    %end
     
     % Demodulation
     yl = absBuffer(fenetres);
@@ -32,26 +46,25 @@ function [ RegOut ] = VERMEULEN( RegIn, Buffer, Fe, Ds, RefLON, RefLAT )
 
     % Supression des trames identiques
     trames = unique(bkr, 'rows', 'stable');
-trames(1,:)';
+
     if(~isempty(trames))
         for i=1:length(trames(:,1))
             registre = struct('adresse', [], 'format', [], 'type', [], 'nom', [], ...
                   'altitude', [], 'timeFlag', [], 'cprFlag', [], ...
                   'latitude', [], 'longitude', [], 'trajectoire', []);
-            registre = bit2registre((trames(i,:))', registre);
+            registre = bit2registre((trames(i,:))', registre, RefLON, RefLAT);
             
-            isempty(registre.adresse);
             if(~isempty(registre.adresse))
-                fprintf(1, '1\n');
+                %fprintf(1, '1\n');
                 id = find(hex2dec([RegOut.adresse]) == hex2dec(registre.adresse), 1);
                 if(isempty(id)) % Nouvel avion
-                    fprintf(1, '2\n');
+                    %fprintf(1, '2\n');
                     RegOut = cat(2, RegOut, registre);
                     id = length(RegOut);
                 end
-                fprintf(1, '3\n');
+                %fprintf(1, '3\n');
                 if(~isempty(registre.longitude))
-                    fprintf(1, '4\n');
+                    %fprintf(1, '4\n');
                     RegOut(id).longitude = registre.longitude;
                     RegOut(id).latitude = registre.latitude;
                     RegOut(id).altitude = registre.altitude;
@@ -62,7 +75,7 @@ trames(1,:)';
                     end
                 end
                 if(~isempty(registre.nom))
-                    fprintf(1, '5\n');
+                    %fprintf(1, '5\n');
                     RegOut(id).nom = registre.nom;     
                 end
             end
@@ -197,7 +210,7 @@ function [n] = N_L(lat)
     end
 end
 
-function [ registre ] = bit2registre( vect, registre )
+function [ registre ] = bit2registre( vect, registre, lon_ref, lat_ref )
 
     if length(vect) ~= 112
         %fprintf('La taille du vecteur est invalide.\n');
@@ -216,10 +229,11 @@ function [ registre ] = bit2registre( vect, registre )
             DF_17 = [1 0 0 0 1];
             registre.format = bi2de(elem);
             % On verifie que DF est bien egal a 17
+            % Extraction de l'adresse OACI de l'avion
+            registre.adresse = dec2hex(bi2de(fliplr(vect(9:32))));
             if isequal(elem, DF_17) == 1
                 
-                % Extraction de l'adresse OACI de l'avion
-                registre.adresse = dec2hex(bi2de(fliplr(vect(9:32))));
+               
                 
                 % Extraction du message ADSB
                 ADSB_m = vect(33:88);
@@ -298,7 +312,6 @@ function [ registre ] = bit2registre( vect, registre )
                     Nz = 15;
                     D_lati = 360/(4*Nz - registre.cprFlag);
                     
-                    lat_ref = 44.806265;
                     Nb = 17;
                     j = floor(lat_ref/D_lati) + floor(1/2 + my_mod(lat_ref, D_lati)/D_lati - LAT/(2^Nb));
                     registre.latitude = D_lati*(j+LAT/(2^Nb));
@@ -314,15 +327,17 @@ function [ registre ] = bit2registre( vect, registre )
                         D_loni = 360;
                     end
                     
-                    lon_ref = -0.606585;
                     m = floor(lon_ref/D_loni) + floor(1/2 + my_mod(lon_ref, D_loni)/D_loni - LON/(2^Nb));
                     registre.longitude = D_loni*(m+LON/(2^Nb));
                      
                 end
             end
-            registre
+            %registre
         end 
     end
 
 end
 
+function [ r ] = my_mod( x, y )
+    r = x-y*floor(x/y);
+end
