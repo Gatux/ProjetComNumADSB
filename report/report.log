@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.11.21)  19 JAN 2015 14:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.11.21)  19 JAN 2015 19:53
 entering extended mode
 **report.tex
 (C:\Users\Gatux\Documents\GitHub\ProjetComNumADSB\report\report.tex
@@ -1049,7 +1049,7 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 5.51999pt on input line 4.
 LaTeX Font Info:    Font shape `T1/futs/bx/sc' in size <10.95> not available
-(Font)              Font shape `T1/futs/b/sc' tried instead on input line 13.
+(Font)              Font shape `T1/futs/b/sc' tried instead on input line 8.
 )
 \tf@toc=\write4
  [1
@@ -1057,36 +1057,35 @@ LaTeX Font Info:    Font shape `T1/futs/bx/sc' in size <10.95> not available
 {C:/Users/Gatux/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] <img/p0p1.png, id=11, 736.40637pt x 331.44518pt>
 File: img/p0p1.png Graphic file (type png)
  <use img/p0p1.png>
-Package pdftex.def Info: img/p0p1.png used on input line 47.
+Package pdftex.def Info: img/p0p1.png used on input line 51.
 (pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 63--65
+Underfull \hbox (badness 10000) in paragraph at lines 67--69
 
  []
 
 <img/p.png, id=12, 736.40637pt x 331.44518pt>
 File: img/p.png Graphic file (type png)
  <use img/p.png>
-Package pdftex.def Info: img/p.png used on input line 71.
+Package pdftex.def Info: img/p.png used on input line 75.
 (pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [2 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/p0p1.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 94--96
+Underfull \hbox (badness 10000) in paragraph at lines 98--100
 
  []
 
 Missing character: There is no n in font fourier-bb!
-
-Underfull \hbox (badness 10000) in paragraph at lines 114--116
+[3 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/p.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 118--120
 
  []
 
-[3 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/p.png (PNG copy)>]
 ! Extra }, or forgotten $.
-l.149 	\end{cases}}
+l.153 	\end{cases}}
                    
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -1095,7 +1094,7 @@ the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
 ! Extra }, or forgotten $.
-l.156 	\end{cases}}
+l.160 	\end{cases}}
                    
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -1104,114 +1103,56 @@ the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
 
-Overfull \hbox (5.75401pt too wide) in paragraph at lines 161--163
+Overfull \hbox (5.75401pt too wide) in paragraph at lines 165--167
 \T1/futs/m/n/10.95 De plus, on a vu que le mo-ment d'ordre 1 est in-dé-pen-dant du temps, le si-gnal $\FML/futmi/m/it/10
 .95 s[]$ \T1/futs/m/n/10.95 est bien cyclo-stationnaire. 
  []
 
-[4] [5]
+[4] <img/rsl.png, id=27, 736.40637pt x 331.44518pt>
+File: img/rsl.png Graphic file (type png)
+ <use img/rsl.png>
+Package pdftex.def Info: img/rsl.png used on input line 200.
+(pdftex.def)             Requested size: 294.55733pt x 132.57571pt.
+ [5 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/rsl.png (PNG copy)>]
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <12> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 217.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 228.
 File: img/p.png Graphic file (type png)
  <use img/p.png>
-Package pdftex.def Info: img/p.png used on input line 223.
-(pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
- <img/sl.png, id=31, 736.40637pt x 331.44518pt>
+Package pdftex.def Info: img/p.png used on input line 234.
+(pdftex.def)             Requested size: 368.20229pt x 165.72217pt.
+ [6] <img/sl.png, id=35, 736.40637pt x 331.44518pt>
 File: img/sl.png Graphic file (type png)
  <use img/sl.png>
-Package pdftex.def Info: img/sl.png used on input line 232.
-(pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
- [6 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/sl.png (PNG copy)>] <img/eye.png, id=35, 736.40637pt x 
-331.44518pt>
+Package pdftex.def Info: img/sl.png used on input line 245.
+(pdftex.def)             Requested size: 368.20229pt x 165.72217pt.
+
+<img/eye.png, id=36, 736.40637pt x 331.44518pt>
 File: img/eye.png Graphic file (type png)
  <use img/eye.png>
-Package pdftex.def Info: img/eye.png used on input line 243.
-(pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
-
-<img/dsp.png, id=36, 736.40637pt x 331.44518pt>
+Package pdftex.def Info: img/eye.png used on input line 255.
+(pdftex.def)             Requested size: 368.20229pt x 165.72217pt.
+ [7 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/sl.png (PNG copy)> <C:/Users/Gatux/Documents/GitHub/Pro
+jetComNumADSB/report/img/eye.png (PNG copy)>]
+<img/dsp.png, id=41, 736.40637pt x 331.44518pt>
 File: img/dsp.png Graphic file (type png)
  <use img/dsp.png>
-Package pdftex.def Info: img/dsp.png used on input line 252.
+Package pdftex.def Info: img/dsp.png used on input line 266.
 (pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
- <img/padapt.png, id=37, 736.40637pt x 331.44518pt>
+ <img/padapt.png, id=42, 736.40637pt x 331.44518pt>
 File: img/padapt.png Graphic file (type png)
 
 <use img/padapt.png>
-Package pdftex.def Info: img/padapt.png used on input line 263.
+Package pdftex.def Info: img/padapt.png used on input line 277.
 (pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[7 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/eye.png (PNG copy)> <C:/Users/Gatux/Documents/GitHub/Pro
-jetComNumADSB/report/img/dsp.png (PNG copy)>] <img/snr_teb1.png, id=42, 736.40637pt x 331.44518pt>
+ [8 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/dsp.png (PNG copy)> <C:/Users/Gatux/Documents/GitHub/Pr
+ojetComNumADSB/report/img/padapt.png (PNG copy)>]
+<img/snr_teb1.png, id=46, 736.40637pt x 331.44518pt>
 File: img/snr_teb1.png Graphic file (type png)
+ <use img/snr_teb1.png>
+Package pdftex.def Info: img/snr_teb1.png used on input line 290.
+(pdftex.def)             Requested size: 368.20229pt x 165.72217pt.
 
-<use img/snr_teb1.png>
-Package pdftex.def Info: img/snr_teb1.png used on input line 276.
-(pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
- [8 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/padapt.png (PNG copy)> <C:/Users/Gatux/Documents/GitHub
-/ProjetComNumADSB/report/img/snr_teb1.png (PNG copy)>]
-<img/snr_teb2.png, id=46, 736.40637pt x 331.44518pt>
-File: img/snr_teb2.png Graphic file (type png)
- <use img/snr_teb2.png>
-Package pdftex.def Info: img/snr_teb2.png used on input line 326.
-(pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[9]
-
-! Package inputenc Error: Keyboard character used is undefined
-(inputenc)                in inputencoding `latin1'.
-
-See the inputenc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.349 ...ne trame (Fse étant le ratio fréquence d’
-                                                  échantillonnage sur fréque...
-You need to provide a definition with \DeclareInputText 
-or \DeclareInputMath before using this key.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 348--351
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 354--356
-
- []
-
-[10 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/snr_teb2.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 357--358
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 358--359
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 359--360
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 360--361
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 361--362
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 362--363
+Underfull \hbox (badness 10000) in paragraph at lines 311--313
 
  []
 
@@ -1222,35 +1163,128 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.364 \newline
+l.314 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 369--374
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 369--374
-
- []
-
+[9 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/snr_teb1.png (PNG copy)>]
+<img/snr_teb2.png, id=50, 736.40637pt x 331.44518pt>
+File: img/snr_teb2.png Graphic file (type png)
+ <use img/snr_teb2.png>
+Package pdftex.def Info: img/snr_teb2.png used on input line 342.
+(pdftex.def)             Requested size: 441.84723pt x 198.86862pt.
 LaTeX Font Info:    Font shape `T1/futs/bx/sc' in size <14.4> not available
-(Font)              Font shape `T1/futs/b/sc' tried instead on input line 377.
-[11] (C:\Users\Gatux\Documents\GitHub\ProjetComNumADSB\report\report.aux)
+(Font)              Font shape `T1/futs/b/sc' tried instead on input line 349.
+ [10 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/snr_teb2.png (PNG copy)>]
+
+! Package inputenc Error: Keyboard character used is undefined
+(inputenc)                in inputencoding `latin1'.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.366 ...ne trame (Fse étant le ratio fréquence d’
+                                                  échantillonnage sur fréque...
+You need to provide a definition with \DeclareInputText 
+or \DeclareInputMath before using this key.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 365--368
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--373
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--375
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 376--377
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 377--378
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 378--379
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
+
+ []
+
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.381 \newline
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 386--388
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 389--390
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 391--392
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--395
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--395
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 396--397
+
+ []
+
+[12] (C:\Users\Gatux\Documents\GitHub\ProjetComNumADSB\report\report.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 24789 strings out of 493921
- 592897 string characters out of 3144875
+ 24798 strings out of 493921
+ 593012 string characters out of 3144875
  772309 words of memory out of 3000000
- 27568 multiletter control sequences out of 15000+200000
- 105121 words of font info for 119 fonts, out of 3000000 for 9000
+ 27574 multiletter control sequences out of 15000+200000
+ 109238 words of font info for 121 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  62i,15n,76p,703b,609s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc} <C:\Users\Gatux\AppData\Local\MiKTeX\2.9\fonts\pk\
@@ -1260,9 +1294,9 @@ fb><C:/Users/Gatux/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/fourier/fourier
 ier/fourier-mlit.pfb><C:/Users/Gatux/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/fourier/fourier-ms.pfb><C:/Program Fi
 les (x86)/MiKTeX 2.9/fonts/type1/adobe/utopia/putb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/adobe/utopia/put
 r8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on report.pdf (11 pages, 162473 bytes).
+Output written on report.pdf (12 pages, 174514 bytes).
 PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
+ 110 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 58 words of extra memory for PDF output out of 10000 (max. 10000000)
 

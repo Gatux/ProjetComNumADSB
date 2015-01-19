@@ -38,6 +38,10 @@ Gabriel VERMEULEN - \texttt{gabriel@vermeulen.email} \\\\{ENSEIRB-MATMECA, Borde
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
 
+Le nombre d'avion dans le ciel ne faisant que croître, des systèmes de surveillance du réseau aérien ont été mis en place pour garantir en autre la sécurité. Ainsi un système appelé ADS-B (Automatic Dependent Surveillance Broadcast) a été développé permettant aux avions de broadcaster des informations de vol telles que leur vitesse, leur altitude et leurs positions GPS.\\
+Ce projet a pour but de modéliser un émetteur ainsi qu'un récepteur de donnée ADS-B avec le logiciel MATLAB.\\
+Une première partie permettra de simuler théoriquement la couche physique de l'ADS-B et de tester ses performances vis à vis de perturbations de type bruitage et désynchronisation. Ensuite l'implémentation des algorithmes sous MATLAB sera expliquée et enfin les résultats obtenus seront présentés.
+
 \section{Étude théorique}
 
 	La modulation en position d'amplitude est utilisée pour la transmission de signaux ADS-B. 
@@ -191,6 +195,14 @@ En résumé, on a pour $\tau \geq 0$
 	}
 \]
 %figure du tracé de R_sl
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale=0.4]{img/rsl.png}
+			\caption{Fonction d'autocorrélation $R_{sl}(\tau)$}
+			\label{rsl}
+\end{figure}
+
+\newpage
 
 Calculons à présent la densité spectrale de puissance $\Gamma_{s_l}$ du signal $s_l$.
 On a 
@@ -212,42 +224,44 @@ La DSP a alors l'expression suivante :
 	\Gamma_{s_l} = \frac{T_s^2}{4}sinc^2(f\frac{T_s}{2})sin^2(\pi f \frac{T_s}{2})}
 \]
 
-\newpage
 
 \subsection{Description de la chaîne de transmission}
 
 Pour simuler la modulation PPM, un message binaire aléatoire est initialement généré. Ce dernier est ensuite transformé en symbole appartement à l'ensemble \{ -1, 1 \} puis est sur-échantillonné. Enfin on applique le filtre de mise en forme ainsi qu'un décalage d'amplitude de $+0.5$.
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
-		\includegraphics[scale=0.6]{img/p.png}
+		\includegraphics[scale=0.5]{img/p.png}
 			\caption{Filtre de mise en forme}
 			\label{p}
 \end{figure}
 
+\newpage
+
 Le résultat obtenue est le signal $s_l(t)$ qui corresponds à la sortie du bloc d'émission.
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
-		\includegraphics[scale=0.6]{img/sl.png}
+		\includegraphics[scale=0.5]{img/sl.png}
 			\caption{Tracé de $s_l(t)$ pour les 25 premier bits}
 			\label{sl}
 \end{figure}
 
-\newpage
 
 Le diagramme de l'oeil nous permet de vérifier qu'il n'y a aucun défaut de synchronisation, de distorsion ou de gigue. Le tracé suivant est fait avant émission, il est donc parfait :
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
-		\includegraphics[scale=0.6]{img/eye.png}
+		\includegraphics[scale=0.5]{img/eye.png}
 			\caption{Diagramme de l'oeil pour les 100 premier bits}
 			\label{eye}
 \end{figure}
 
+\newpage
+
 La densité spectrale de puissance du signal nous permet de voir la répartition fréquentielle de la puissance du signal. Un tracé théorique et réel est présenté sur la figure suivante. On peut remarquer, outre le décalage d'amplitude entre les deux courbes, le fait que le signal réel aléatoire résultant d'une seule réalisation engendre une courbe moins lissée que celle théorique.
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
 		\includegraphics[scale=0.6]{img/dsp.png}
 			\caption{Tracé théorique et réel de la DSP de $s_l(t)$}
@@ -258,7 +272,7 @@ On considérera que le canal se comporte comme un filtre passe-tout.\\
 A la réception, le signal récupéré est constitué du signal émis auquel est ajouté un bruit de réception modélisé par un bruit blanc gaussien centré en 0.\\
 Tout d'abord un décalage d'amplitude  de $-0.5$ est appliqué au signal. Ensuite ce dernier est filtré par un filtre adapté dont voici le tracé :
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
 		\includegraphics[scale=0.6]{img/padapt.png}
 			\caption{Filtre adapté}
@@ -271,9 +285,9 @@ Il ne reste qu'à sous-échantillonner au rythme du temps symbole et à effectuer l
 
 L'étude du lien entre le taux d'erreur binaire et du ratio signal sur bruit permet de mesurer les performances de la chaîne de transmission PPM malgré l'ajout d'un bruit blanc gaussien centré au signal émis. On peut observer un décalage entre la courbe théorique et la courbe réelle.
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
-		\includegraphics[scale=0.6]{img/snr_teb1.png}
+		\includegraphics[scale=0.5]{img/snr_teb1.png}
 			\caption{Courbes réelles et théoriques du TEB en fonction du SNR en db}
 			\label{snr_teb1}
 \end{figure}
@@ -295,8 +309,10 @@ En effet,
 \[
 	\frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }} \leq \frac{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }} \leq 1
 \]
-avec égalité lorsque $y_l = \lambda s_p$
-\\
+avec égalité lorsque $y_l = \lambda s_p$\\
+
+\newline
+
 Lorsqu'un avion se déplace à 900 km/h, son déplacement induit un décalage de fréquence perçu par le récepteur. Ce phénomène porte le nom d'effet Doppler. Il est possible d'estimer ce décalage de fréquence grâce à la formule qui suit :
 
 \[
@@ -307,21 +323,21 @@ Avec $f_{rec}$ la fréquence reçue, $f_{em}$ la fréquence émise, $v_{rec}$ la vit
 Ici sera considéré :
 \begin{itemize}
 	\item $f_{em}$ = 1090 MHz
-	\item $v_{rec}$ = 0 $km.h^-1$
-	\item $v_{em}$ = 900 $km.h^-1$
-	\item c = 1 079 252 848,8 $km.h^-1$
+	\item $v_{rec}$ = 0 $km.h^{-1}$
+	\item $v_{em}$ = 900 $km.h^{-1}$
+	\item c = 1 079 252 848,8 $km.h^{-1}$
 \end{itemize}
 
-Finalement on obtient $f_{rec}$ = 1 090 000 909 Hz, ce qui traduit un décalage maximum de +-909 Hz.
+Finalement on obtient $f_{rec}$ = 1 090 000 909 Hz, ce qui traduit un décalage maximum de \textbf{+-909 Hz}.
 
-\subsection{Etude du taux d'erreur binaire en fonction du SNR avec la synchronisation}
+\subsection{Etude du taux d'erreur binaire en fonction du SNR avec synchronisation}
 
 Afin de gérer la synchronisation temporelle et fréquentielle, il faut modifier la chaîne de transmission.\\
 Dans le bloc d'émission, il suffit d'ajouter le préambule au signal de sortie.\\
 Avant d'ajout du bruit blanc gaussien centré au signal, il faut artificiellement désynchroniser le signal. Cela se fait en ajoutant des bits aléatoires avant le signal et en le multipliant par une exponentielle complexe.\\
 Le bloc de réception se voit ajouter le calcul de la fonction REF permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
 
-\begin{figure}[!h]
+\begin{figure}[h]
 	\centering
 		\includegraphics[scale=0.6]{img/snr_teb2.png}
 			\caption{Courbes réelles et théoriques du TEB en fonction du SNR en db}
@@ -347,7 +363,7 @@ Afin de désynchroniser artificiellement le signal, il faut ajouter au signal une
 \subsection{Bloc de réception}
 
 La première chose à faire est d'estimer les paramètres $\delta_t$ et $\delta_f$. Pour ce faire, une boucle calcul pour un $\delta_f$ variant de -1000 Hz à 1000 Hz la convolution entre le signal multiplié par une exponentielle complexe de fréquence $\delta_f$ et le préambule. On recherche ensuite le maximum de cette convolution avec la fonction $max$ ce qui nous permet d'obtenir $\delta_t$ et $\delta_f$.\\
-On peut ainsi compenser les décalages temporel et fréquentiel et sélectionner les $112*Fse$ points traduisant une trame (Fse étant le ratio fréquence d’échantillonnage sur fréquence du débit symbole).\\
+On peut ainsi compenser les décalages temporel et fréquentiel et sélectionner les $112.Fse$ points traduisant une trame (Fse étant le ratio fréquence d’échantillonnage sur fréquence du débit symbole).\\
 Il reste a utiliser la fonction $conv$ pour appliquer le filtre adapté, puis à effectuer une simple condition \textit{supérieure à} pour la décision et on obtient le message démodulé.\\
 
 \subsection{Décodage ADSB}
