@@ -254,7 +254,7 @@ La densité spectrale de puissance du signal nous permet de voir la répartition f
 			\label{dsp}
 \end{figure}
 
-Il sera considérer que le canal se comporte comme un filtre passe-tout.\\
+On considérera que le canal se comporte comme un filtre passe-tout.\\
 A la réception, le signal récupéré est constitué du signal émis auquel est ajouté un bruit de réception modélisé par un bruit blanc gaussien centré en 0.\\
 Tout d'abord un décalage d'amplitude  de $-0.5$ est appliqué au signal. Ensuite ce dernier est filtré par un filtre adapté dont voici le tracé :
 
@@ -265,7 +265,7 @@ Tout d'abord un décalage d'amplitude  de $-0.5$ est appliqué au signal. Ensuite 
 			\label{padapt}
 \end{figure}
 
-Il ne reste qu'à sous-échantillonner au rythme du temp symbole et à effectuer la décision par rapport à l'amplitude du signal. Le message est ainsi récupéré.
+Il ne reste qu'à sous-échantillonner au rythme du temps symbole et à effectuer la décision par rapport à l'amplitude du signal. Le message est ainsi récupéré.
 
 \subsection{Etude du taux d'erreur binaire en fonction du SNR}
 
@@ -285,7 +285,7 @@ Afin de synchroniser temporellement et fréquentiellement le signal reçu (induit 
 	\rho (\delta'_t, \delta'_f) = \frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}
 \] 
 
-Les décalages temporels et fréquentiels sont réalisés en prennant le couple $(\hat{\delta}_t, \hat{\delta}_f)$ tel que
+Les décalage temporels et fréquentiels sont réalisés en prennant le couple $(\hat{\delta}_t, \hat{\delta}_f)$ tel que
 \[
 	(\hat{\delta}_t, \hat{\delta}_f) = arg\max \limits_{(\delta'_t, \delta'_f)} |\rho (\delta'_t, \delta'_f)|
 \]
@@ -297,13 +297,13 @@ En effet,
 \]
 avec égalité lorsque $y_l = \lambda s_p$
 \\
-Lorsqu'un avion se déplace à 900 km/h, son déplacement induit un décalages de fréquence perçu par le récepteur. Cet phénomène porte le nom d'effet Doppler. Il est possible d'estimer ce décalage de fréquence grâce à la formule qui suit :
+Lorsqu'un avion se déplace à 900 km/h, son déplacement induit un décalage de fréquence perçu par le récepteur. Ce phénomène porte le nom d'effet Doppler. Il est possible d'estimer ce décalage de fréquence grâce à la formule qui suit :
 
 \[
 	f_{rec} = \frac{c - v_{rec}}{c - v_{em}} f_{em}
 \]
 
-Avec $f_{rec}$ la fréquence reçu, $f_{em}$ la fréquence émise, $v_{rec}$ la vitesse du récepteur, $v_{em}$ la vitesse de l'émetteur et c la célérité de l'onde.\\
+Avec $f_{rec}$ la fréquence reçue, $f_{em}$ la fréquence émise, $v_{rec}$ la vitesse du récepteur, $v_{em}$ la vitesse de l'émetteur et c la célérité de l'onde.\\
 Ici sera considéré :
 \begin{itemize}
 	\item $f_{em}$ = 1090 MHz
@@ -318,8 +318,8 @@ Finalement on obtient $f_{rec}$ = 1 090 000 909 Hz, ce qui traduit un décalage m
 
 Afin de gérer la synchronisation temporelle et fréquentielle, il faut modifier la chaîne de transmission.\\
 Dans le bloc d'émission, il suffit d'ajouter le préambule au signal de sortie.\\
-Avant d'ajout du bruit blanc gaussien centré au signal, il faut artificiellement désynchroniser le signal. Cela se fait en ajoutant des bits aléatoire avant le signal et en le multipliant par une exponentielle complexe.\\
-Le bloc de réception se voit ajouter le calcule de la fonction REF permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
+Avant d'ajout du bruit blanc gaussien centré au signal, il faut artificiellement désynchroniser le signal. Cela se fait en ajoutant des bits aléatoires avant le signal et en le multipliant par une exponentielle complexe.\\
+Le bloc de réception se voit ajouter le calcul de la fonction REF permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
 
 \begin{figure}[!h]
 	\centering
@@ -328,14 +328,14 @@ Le bloc de réception se voit ajouter le calcule de la fonction REF permettant d'
 			\label{snr_teb2}
 \end{figure}
 
-Il a été remarqué que la fonction établie pour estimer les paramètres $\delta_t$ et $\delta_f$ reste très sensible au bruit, qui peut donner des erreurs d'estimations. Lorsque c'est le cas, le TEB devient important.
+Il a été remarqué que la fonction établie pour estimer les paramètres $\delta_t$ et $\delta_f$ reste très sensible au bruit, ce qui peut donner des erreurs d'estimations. Lorsque c'est le cas, le TEB devient important.
 
-\section{Étude algorithmique}
+\section{Implémentation sous \textsc{MATLAB}}
 
 \subsection{Bloc d'émission}
 
 La génération aléatoire de message s'effectue simplement avec la fonction $randi$ en précisant la taille de la matrice à générer, et l'ensemble \{ 0, 1 \} correspondant aux bits.\\
-Ensuite l'association bit/symbole se fait avec un simple calcul mathématique et le sur-échantillonnage est effectué avec la fonction $upsample$.\\
+Ensuite l'association bits/symbole se fait avec un simple calcul mathématique et le sur-échantillonnage est effectué avec la fonction $upsample$.\\
 Enfin, l'utilisation de la fonction $conv$ permet d'appliquer le filtre de mise en forme au signal.\\
 L'ajout du préambule se fait avec une concaténation de vecteurs.
 
@@ -347,13 +347,13 @@ Afin de désynchroniser artificiellement le signal, il faut ajouter au signal une
 \subsection{Bloc de réception}
 
 La première chose à faire est d'estimer les paramètres $\delta_t$ et $\delta_f$. Pour ce faire, une boucle calcul pour un $\delta_f$ variant de -1000 Hz à 1000 Hz la convolution entre le signal multiplié par une exponentielle complexe de fréquence $\delta_f$ et le préambule. On recherche ensuite le maximum de cette convolution avec la fonction $max$ ce qui nous permet d'obtenir $\delta_t$ et $\delta_f$.\\
-On peut ainsi compenser le décalages temporel et fréquentiel et sélectionner les $112*Fse$ points traduisant une trame (Fse étant le ratio fréquence d’échantillonnage sur fréquence du débit symbole).\\
-Il reste a utiliser la fonction $conv$ pour appliquer le filtre adapté, puis à effectuer une simple condition supérieur à pour la décision et on obtient le message démodulé.\\
+On peut ainsi compenser les décalages temporel et fréquentiel et sélectionner les $112*Fse$ points traduisant une trame (Fse étant le ratio fréquence d’échantillonnage sur fréquence du débit symbole).\\
+Il reste a utiliser la fonction $conv$ pour appliquer le filtre adapté, puis à effectuer une simple condition \textit{supérieure à} pour la décision et on obtient le message démodulé.\\
 
 \subsection{Décodage ADSB}
 
-Une fois que les buffers reçus ont été démodulés et synchronisés en temps et en fréquence, on peut extraire les trames ADS-B dont nous allons à présent expliquer le décodage.\newline
-Les trames ont une longueur de 120 bits ayant la structure suivante :\newline
+Une fois que les buffers reçus ont été démodulés et synchronisés en temps et en fréquence, on peut extraire les trames ADS-B dont nous allons à présent expliquer le décodage que nous avons implémenté via la fonction $bit2registre$.\newline
+Les trames ont une longueur de 120 bits et possède la structure suivante :\newline
 \begin{itemize}
 	\item Préambule $\rightarrow$ 8 bits\\
 	\item Format de la voix descendante $\rightarrow$ 5 bits\\
@@ -368,19 +368,28 @@ Tout d'abord, on vérifie que la trame est correcte grâce au CRC de polynôme géné
 \[
 	p(x) = x^{24} + x^{23} + x^{22} + x^{21} + x^{20} + x^{19} + x^{18} + x^{17} + x^{16} + x^{15} + x^{14} + x^{13} + x^{12} + x^{12} + x^{10} + x^3 + 1
 \]
-S'il n'y a pas d'erreur, on récupère les 5 bits suivant le préambule afin de connaître le format de la voie descendante (on ne traitera que les trames avec \textbf{DF = 17}).\newline
-Ensuite, on décode l'adresse OACI de l'appareil qui nous permettra de faire le lien entre les différentes trames reçues, car elle est propre à chaque avion (l'adresse est codée sur 24 bits et se trouve à la position 16 dans la trame).\newline
+On peut effectuer cette opération sur \textsc{MATLAB} à l'aide de la fonction $crc.detector$ qui va générer le CRC à partir d'un polynôme générateur passé en argument, puis on vérifie que la trame est correcte grâce à $detect$ qui nous renvoie le nombre d'erreurs trouvées.\newline
+
+S'il n'y a pas d'erreur, on récupère les 5 bits suivant le préambule afin de connaître le format de la voie descendante que l'on convertit en binaire à l'aide de $bi2de$ (on ne traitera que les trames avec \textbf{DF = 17}).\newline
+
+Ensuite, on décode l'adresse OACI de l'appareil qui nous permettra de faire le lien entre les différentes trames reçues, car elle est propre à chaque avion (l'adresse est codée sur 24 bits et se trouve à la position 16 dans la trame). On la convertira tout d'abord en binaire, puis en hexadécimal à l'aide de la fonction $dec2hex$ afin de faciliter sa lecture.\newline
+
 On termine par le décodage du message contenant les données transportées par la trame. Les 5 premiers bits du message permettent de connaître le format des données envoyées (FTC). On ne s'intéresse qu'aux valeurs de FTC comprises entre 1 et 4 (pour les messages d'identification) et entre 9 et 22 (en excluant la valeur 19 pour les messages de position en vol).\newline
 \newline
 
-Pour les messages d'identification, on décode les 8 caractères de l'identifiant qui sont codés sur 6 bits chacun. Pour les messages de position en vol, on décode l'altitude qui est codée sur 12 bits, la latitude et la longitude qui sont codées sur 17 bits.
+Si le FTC est compris entre 1 et 4, on commence par créer une matrice de taille 8x6 où les colonnes correspondent aux 6 bits encodant les caractères. Un tableau contenant la correspondance entre la valeur décimale de ces 6 bits et le caractère auxquels ils correspondent est créé afin de décoder à l'aide de $cells$ le nom de l'avion.\newline
 
-\section{Implémentation sous \textsc{MATLAB}}
+Si le FTC est compris entre 9 et 22 (mais différent de 19), on extrait l'indicateur UTC qui en position 21 dans le message, ainsi que le bit suivant qui est l'indicateur CPR. Enfin, à l'aide d'une série de calculs complexes, on récupère l'altitude, la latitude et la longitude.
 
 \section{Résultats}
 
+
+
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
-	
+
+		Ce projet nous aura permis d'étudier et de mettre en oeuvre une chaîne de communication numériques en mettant l'accent sur la partie réception. L'étude du protocole ADS-B, dont nous avons à présent une bonne compréhension, a notamment été un plus du fait de son utilisation répandue dans le secteur de l'aéronautique.\newline
+		L'une des principales difficultés rencontrées a été la synchronisation temporelle et fréquentielle du signal reçu, étape cruciale du décodage des trames ADS-B.\newline
+		Cependant, nous avons finalement réussi à décoder des buffers de trames en temps réel, par contre les calculs étaient trop lents par rapport au flux d'arrivé des buffers. Une grande partie d'optimisation pourrait encore être fait à ce niveau afin d'améliorer les performances de l'estimation de la position des trames qui est l'étape demandant le plus de calculs.
 
 \end{document}
