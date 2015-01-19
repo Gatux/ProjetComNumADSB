@@ -26,8 +26,7 @@ for ligne=1:35
    bit2registre(trames(ligne, :)', registre); 
 end
 %%
- bit2registre(trames(2
- , :)', registre); 
+ bit2registre(trames(2, :)', registre); 
 
 %%
     lat_ref = 44.806265;

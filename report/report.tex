@@ -44,15 +44,7 @@ Une première partie permettra de simuler théoriquement la couche physique de l'A
 
 \section{Étude théorique}
 
-	La modulation en position d'amplitude est utilisée pour la transmission de signaux ADS-B. 
-	
-	\begin{figure}[!h]
-	\centering
-		\includegraphics[scale=0.6]{img/p0p1.png}
-			\caption{Tracé des impultions $p_0(t)$ et $p_1(t)$}
-			\label{p0p1}
-\end{figure}
-	
+	La modulation en position d'amplitude est utilisée pour la transmission de signaux ADS-B.\\
 	On a alors l'enveloppe complexe du signal émis qui est la suivante :
 	\[
 		s_l(t) = \sum \limits_{k \in \mathbb{Z}} p_{b_k}(t-kT_s)
@@ -65,7 +57,13 @@ Une première partie permettra de simuler théoriquement la couche physique de l'A
 				p_1(t)\text{, si } b_k = 1
 		\end{cases}
 	\]
-	\newline
+	
+	\begin{figure}[!h]
+		\centering
+			\includegraphics[scale=0.6]{img/p0p1.png}
+				\caption{Tracé des impultions $p_0(t)$ et $p_1(t)$}
+				\label{p0p1}
+	\end{figure}
 	
 	$s_l$ peut également s'exprimer en fonction des symboles émis $A_k$ et de la forme d'onde biphase donnée ci-dessous.
 	
@@ -150,14 +148,14 @@ Nous allons maintenant montrer que le signal est cyclo-stationnaire :
 	\begin{cases}
 		p(t + T_s- \left\lfloor \frac{t+ T_s}{T_s} \right\rfloor T_s) p(t+ T_s-\tau- \left\lfloor \frac{t+ T_s-\tau}{T_s} \right\rfloor T_s)\text{, si }\left\lfloor \frac{t+ T_s}{T_s} \right\rfloor=\left\lfloor \frac{t+ T_s-\tau}{T_s} \right\rfloor\\
 		0\text{, si }\left\lfloor \frac{t+ T_s}{T_s} \right\rfloor \neq \left\lfloor \frac{t+ T_s-\tau}{T_s} \right\rfloor
-	\end{cases}}
+	\end{cases}
 \]
 \[
 	R_{s_l}(t+T_s, \tau) = 
 	\begin{cases}
 		p(t + T_s -T_s- \left\lfloor \frac{t}{T_s} \right\rfloor T_s) p(t+ T_s-T_s-\tau- \left\lfloor \frac{t-\tau}{T_s} \right\rfloor T_s)\text{, si }\left\lfloor \frac{t}{T_s} \right\rfloor=\left\lfloor \frac{t-\tau}{T_s} \right\rfloor\\
 		0\text{, si }\left\lfloor \frac{t}{T_s} \right\rfloor \neq \left\lfloor \frac{t-\tau}{T_s} \right\rfloor
-	\end{cases}}
+	\end{cases}
 \]
 On a alors :
 \[
@@ -198,7 +196,7 @@ En résumé, on a pour $\tau \geq 0$
 \begin{figure}[h]
 	\centering
 		\includegraphics[scale=0.4]{img/rsl.png}
-			\caption{Fonction d'autocorrélation $R_{sl}(\tau)$}
+			\caption{Fonction d'autocorrélation $\tilde{R}_{sl}(\tau)$}
 			\label{rsl}
 \end{figure}
 
@@ -295,9 +293,10 @@ L'étude du lien entre le taux d'erreur binaire et du ratio signal sur bruit perm
 \subsection{Synchronisation en temps et en fréquence}
 
 Afin de synchroniser temporellement et fréquentiellement le signal reçu (induit respectivement par un délais de propagation et par l'effet Doppler), on calcule le maximum de la corrélation suivante.
-\[
+\begin{equation}
 	\rho (\delta'_t, \delta'_f) = \frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}
-\] 
+	\label{sync}
+\end{equation} 
 
 Les décalage temporels et fréquentiels sont réalisés en prennant le couple $(\hat{\delta}_t, \hat{\delta}_f)$ tel que
 \[
@@ -309,9 +308,7 @@ En effet,
 \[
 	\frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }} \leq \frac{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }} \leq 1
 \]
-avec égalité lorsque $y_l = \lambda s_p$\\
-
-\newline
+avec égalité lorsque $y_l = \lambda s_p$\\\\
 
 Lorsqu'un avion se déplace à 900 km/h, son déplacement induit un décalage de fréquence perçu par le récepteur. Ce phénomène porte le nom d'effet Doppler. Il est possible d'estimer ce décalage de fréquence grâce à la formule qui suit :
 
@@ -335,7 +332,8 @@ Finalement on obtient $f_{rec}$ = 1 090 000 909 Hz, ce qui traduit un décalage m
 Afin de gérer la synchronisation temporelle et fréquentielle, il faut modifier la chaîne de transmission.\\
 Dans le bloc d'émission, il suffit d'ajouter le préambule au signal de sortie.\\
 Avant d'ajout du bruit blanc gaussien centré au signal, il faut artificiellement désynchroniser le signal. Cela se fait en ajoutant des bits aléatoires avant le signal et en le multipliant par une exponentielle complexe.\\
-Le bloc de réception se voit ajouter le calcul de la fonction  permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
+
+Le bloc de réception se voit ajouter le calcul de la fonction \eqref{sync} permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
 
 \begin{figure}[h]
 	\centering
@@ -363,7 +361,7 @@ Afin de désynchroniser artificiellement le signal, il faut ajouter au signal une
 \subsection{Bloc de réception}
 
 La première chose à faire est d'estimer les paramètres $\delta_t$ et $\delta_f$. Pour ce faire, une boucle calcul pour un $\delta_f$ variant de -1000 Hz à 1000 Hz la convolution entre le signal multiplié par une exponentielle complexe de fréquence $\delta_f$ et le préambule. On recherche ensuite le maximum de cette convolution avec la fonction $max$ ce qui nous permet d'obtenir $\delta_t$ et $\delta_f$.\\
-On peut ainsi compenser les décalages temporel et fréquentiel et sélectionner les $112.Fse$ points traduisant une trame (Fse étant le ratio fréquence d’échantillonnage sur fréquence du débit symbole).\\
+On peut ainsi compenser les décalages temporel et fréquentiel et sélectionner les $112 \times Fse$ points traduisant une trame (Fse étant le ratio fréquence d'échantillonnage sur fréquence du débit symbole).\\
 Il reste a utiliser la fonction $conv$ pour appliquer le filtre adapté, puis à effectuer une simple condition \textit{supérieure à} pour la décision et on obtient le message démodulé.\\
 
 \subsection{Décodage ADSB}
@@ -378,7 +376,6 @@ Les trames ont une longueur de 120 bits et possède la structure suivante :\newli
 	\item Données ADS-B $\rightarrow$ 56 bits\\
 	\item Contrôle de parités $\rightarrow$ 24 bits\\
 \end{itemize}
-\newline
 
 Tout d'abord, on vérifie que la trame est correcte grâce au CRC de polynôme générateur 
 \[
@@ -397,9 +394,39 @@ Si le FTC est compris entre 1 et 4, on commence par créer une matrice de taille 
 
 Si le FTC est compris entre 9 et 22 (mais différent de 19), on extrait l'indicateur UTC qui en position 21 dans le message, ainsi que le bit suivant qui est l'indicateur CPR. Enfin, à l'aide d'une série de calculs complexes, on récupère l'altitude, la latitude et la longitude.
 
+\newpage
+
 \section{Résultats}
 
+La simulation du récepteur ADSB-B a permis d'étudier des données réelles obtenu à l'aide d'un récepteur.\\
+Tout d'abord le code a été testé sur des trames déjà démodulées. Ainsi on peut observer par exemple le décollage d'un avion :
 
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale=0.6]{img/carte.png}
+			\caption{Données provenant du fichier $trames\_20141120.mat$}
+			\label{carte}
+\end{figure}
+
+Par la suite, il a fallu intégré la démodulation ce qui a permis de traité un flux réel de données provenant d'un récepteur radio. Le flux de données se présente sous forme d'un buffer de 2 millions de points correspondant à 0.5 seconde de temps de réception.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale=0.6]{img/carte_buffer.png}
+			\caption{$list\_cplx\_buffers2.mat$ démodulé et décodé}
+			\label{carte_buffer}
+\end{figure}
+
+\newpage
+
+Enfin le code a été testé en temps réel. Si les performance restent limitées concernant le temps d'exécution, il a quand même été possible de récupérer quelques données :
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[scale=0.6]{img/carte_live.png}
+			\caption{Données traitées en direct}
+			\label{carte_live}
+\end{figure}
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}

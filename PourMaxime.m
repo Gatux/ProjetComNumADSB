@@ -3,7 +3,7 @@ clear all; close all; clc;
 load('list_cplx_buffers2.mat');
 %% Ce code demodule le buffer 7 et defini "trames"
 
-absBuffer = abs(list_cplx_buffers(4, :));
+absBuffer = abs(list_cplx_buffers(7, :));
 f_se = 4;
 Fe = 4e6;
 Fse = 4;
@@ -40,7 +40,7 @@ trames = unique(trames, 'rows', 'stable');
 
 %Trame du buffer 7
 %t = trames(1, :); % nom
-t = trames(3, :); % position
+t = trames(2, :); % position
 
 registre = struct('adresse', [], 'format', [], 'type', [], 'nom', [], ...
                   'altitude', [], 'timeFlag', [], 'cprFlag', [], ...
@@ -49,3 +49,29 @@ registre = struct('adresse', [], 'format', [], 'type', [], 'nom', [], ...
 registre = bit2registre(t', registre);
 
 registres = bits2registres(t, -0.606585, 44.806265)
+
+
+%%
+
+
+  sp_t = [ 1 1 0 0 1 1 0 0 0 0 0 0 0 0 1 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 ];
+    lsp = length(sp_t);
+    absBuffer = abs(list_cplx_buffers(7,:));
+     
+    % Localisation des preambules
+    r = conv(absBuffer, fliplr(sp_t)) ./ (sqrt(sum(abs(sp_t).^2)).*sqrt(conv(abs(absBuffer).^2, ones(1,8*10^-6 * Fe))));
+    positions = find(r > 0.75)
+
+%%
+
+estimation2(absBuffer, Fe)
+
+%%
+yl = absBuffer;
+ sp_t = [ 1 0 1 0 0 0 0 1 0 1 0 0 0 0 0 0 ];
+    sps = kron(sp_t, ones(1,0.5 * 10^-6 * Fe));
+ r = conv(yl, fliplr(sps)) ./ (sqrt(sum(abs(sps).^2)).*sqrt(conv(abs(yl).^2, ones(1,8*10^-6 * Fe))));
+positions = find(r > 0.75)
+
+
+

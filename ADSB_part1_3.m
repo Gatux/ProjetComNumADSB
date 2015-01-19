@@ -149,7 +149,7 @@ rsl = zeros(1, 2*Ts*fe);
 rsl(1:Ts/2*fe+1) = (1/4) - ( (3 * (0:1/fe:(Ts/2))) / (4*Ts) );
 rsl((Ts/2*fe+1):(Ts*fe+1)) = (((Ts/2):1/fe:(Ts)) / (4*Ts)) - (1/4);
 
-rsl = [fliplr(rsl) rsl];
+rsl = [0 fliplr(rsl(2:end)) rsl];
 plot((((0:(length(rsl)-1))/length(rsl))-0.5)*(length(rsl)/fe*1e6), rsl)
 xlabel('Temps (µs)');
 ylabel('Amplitude');
