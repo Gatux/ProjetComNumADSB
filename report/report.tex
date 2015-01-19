@@ -281,9 +281,10 @@ L'étude du lien entre le taux d'erreur binaire et du ratio signal sur bruit perm
 \subsection{Synchronisation en temps et en fréquence}
 
 Afin de synchroniser temporellement et fréquentiellement le signal reçu (induit respectivement par un délais de propagation et par l'effet Doppler), on calcule le maximum de la corrélation suivante.
-\[
+\begin{equation}
 	\rho (\delta'_t, \delta'_f) = \frac{\int \limits_{\delta'_t}^{\delta'_t+T_p} y_l(t)s_p^*(t-\delta'_t)e^{j2 \pi \delta'_f t} dt}{\sqrt{\int \limits_0^{T_p} |s_p^2(t)|dt}\sqrt{\int \limits_{\delta'_t}^{\delta'_t+T_p} |y_l(t)|^2 dt }}
-\] 
+	\label{sync}
+\end{equation} 
 
 Les décalage temporels et fréquentiels sont réalisés en prennant le couple $(\hat{\delta}_t, \hat{\delta}_f)$ tel que
 \[
@@ -319,7 +320,7 @@ Finalement on obtient $f_{rec}$ = 1 090 000 909 Hz, ce qui traduit un décalage m
 Afin de gérer la synchronisation temporelle et fréquentielle, il faut modifier la chaîne de transmission.\\
 Dans le bloc d'émission, il suffit d'ajouter le préambule au signal de sortie.\\
 Avant d'ajout du bruit blanc gaussien centré au signal, il faut artificiellement désynchroniser le signal. Cela se fait en ajoutant des bits aléatoires avant le signal et en le multipliant par une exponentielle complexe.\\
-Le bloc de réception se voit ajouter le calcul de la fonction REF permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
+Le bloc de réception se voit ajouter le calcul de la fonction~\eqref{sync} permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
 
 \begin{figure}[!h]
 	\centering
