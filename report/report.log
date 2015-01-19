@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.11.21)  19 JAN 2015 19:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.11.21)  19 JAN 2015 20:02
 entering extended mode
 **report.tex
 (C:\Users\Gatux\Documents\GitHub\ProjetComNumADSB\report\report.tex
@@ -1170,6 +1170,31 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 [9 <C:/Users/Gatux/Documents/GitHub/ProjetComNumADSB/report/img/snr_teb1.png (PNG copy)>]
+! Missing $ inserted.
+<inserted text> 
+                $
+l.338 ...oit ajouter le calcul de la fonction \leq
+                                                   1 permettant d'estimer le...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+LaTeX Warning: Command \` invalid in math mode on input line 338.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.338 ...ant d'estimer les deux paramètres $\delta
+                                                  _t$ et $\delta_f$. Il devi...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (22.21956pt too wide) in paragraph at lines 335--339
+\T1/futs/m/n/10.95 Le bloc de ré-cep-tion se voit ajou-ter le cal-cul de la fonc-tion $\FMS/futm/m/n/10.95  \T1/futs/m/
+n/10.95 1\FML/futmi/m/it/10.95 permettantd[]estimerlesdeuxparam\T1/futs/m/n/10.95 è\FML/futmi/m/it/10.95 tres$$[]$
+ []
+
 <img/snr_teb2.png, id=50, 736.40637pt x 331.44518pt>
 File: img/snr_teb2.png Graphic file (type png)
  <use img/snr_teb2.png>
@@ -1294,7 +1319,7 @@ fb><C:/Users/Gatux/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/fourier/fourier
 ier/fourier-mlit.pfb><C:/Users/Gatux/AppData/Roaming/MiKTeX/2.9/fonts/type1/public/fourier/fourier-ms.pfb><C:/Program Fi
 les (x86)/MiKTeX 2.9/fonts/type1/adobe/utopia/putb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/adobe/utopia/put
 r8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on report.pdf (12 pages, 174514 bytes).
+Output written on report.pdf (12 pages, 174646 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

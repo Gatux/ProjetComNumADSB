@@ -335,7 +335,7 @@ Finalement on obtient $f_{rec}$ = 1 090 000 909 Hz, ce qui traduit un décalage m
 Afin de gérer la synchronisation temporelle et fréquentielle, il faut modifier la chaîne de transmission.\\
 Dans le bloc d'émission, il suffit d'ajouter le préambule au signal de sortie.\\
 Avant d'ajout du bruit blanc gaussien centré au signal, il faut artificiellement désynchroniser le signal. Cela se fait en ajoutant des bits aléatoires avant le signal et en le multipliant par une exponentielle complexe.\\
-Le bloc de réception se voit ajouter le calcul de la fonction REF permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
+Le bloc de réception se voit ajouter le calcul de la fonction  permettant d'estimer les deux paramètres $\delta_t$ et $\delta_f$. Il devient alors possible de démoduler le signal, puis de calculer et de tracer la nouvelle courbe du TEB en fonction du SNR.
 
 \begin{figure}[h]
 	\centering
