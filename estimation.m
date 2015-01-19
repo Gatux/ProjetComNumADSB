@@ -10,9 +10,11 @@ function [ delta_t, delta_f, debug ] = estimation( yl, fe)
     l = length(df);
     c = zeros(N, l);
     dc = zeros(N, l);
-
+    
+    np = sqrt(sum(abs(sps).^2));
+    
     for i=1:l
-        [c(:, i), dc(:,i)] = max(conv2(real(yl*exp(-1i*2*pi*1/fe*df(i))), fliplr(sps)), [], 2);
+        [c(:, i), dc(:,i)] = max(conv2(real(yl*exp(-1i*2*pi*1/fe*df(i))), fliplr(sps)) ./ (np*sqrt(conv2(abs(yl).^2, ones(1,8*10^-6 * fe)))), [], 2);
         % valeur, delta_t
     end
     [~, pos] = max(c, [], 2);
@@ -21,7 +23,7 @@ function [ delta_t, delta_f, debug ] = estimation( yl, fe)
     lsp = length(sps);
     delta_t = zeros(l, 1);
     for i=1:l
-        delta_t(i, 1) = dc(i, pos(i))  - lsp;
+        delta_t(i, 1) = mod(dc(i, pos(i))  - lsp, 100);
     end
     delta_f = df(pos)';
     debug = {c, dc, pos};

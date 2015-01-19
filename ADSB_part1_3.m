@@ -20,7 +20,7 @@ p = [ -0.5 * ones(1, 0.5 * 10^-6 * fe) 0.5 * ones(1, 0.5 * 10^-6 * fe) ];
 p_adapt = [ 0.5 * ones(1, 0.5 * 10^-6 * fe) -0.5 * ones(1, 0.5 * 10^-6 * fe) ];
 
 % Definition des variables suplementaires
-snr_max = 15;
+snr_max = 50;
 resultat = zeros(N, snr_max+1);
 SNR_l = ones(1, snr_max+1);
 d = zeros(N, 2);
@@ -68,10 +68,7 @@ for n=0:snr_max
     
     % Ajout de bruit
     sl4 = sl4 + sigma * randn(N, length(sl4));
-    fprintf('sl4 ');
-    
     l = length(sl4);
-        %fprintf('SNR: %ddb / %ddb, Trame: %d / %d\n', n, snr_max, i, N);
         
     yl1 = sl4;
        
@@ -81,7 +78,7 @@ for n=0:snr_max
     yl2 = zeros(N, Nt*Fse);
     lsp = length(pre);
     for i=1:N
-        yl2(i, :) = real(yl1(i, lsp+1:lsp+Nt*Fse) * exp(-1i * 2 * pi * 1/fe * e_delta_f(i)));
+        yl2(i, :) = real(yl1(i, lsp+1+e_delta_t(i):lsp+e_delta_t(i)+Nt*Fse) * exp(-1i * 2 * pi * 1/fe * e_delta_f(i)));
     end
     fprintf('yl2 ');
     
@@ -110,7 +107,11 @@ figure;
 plot(0:length(resultat(1,:))-1, log10(mean(resultat)));
 title('TEB en fonction du SNR en db');
 xlabel('SNR en db'); ylabel('TEB');
-
+%%
+figure;
+plot((0:20) -1, log10(mean(resultat(:,1:21))));
+title('TEB en fonction du SNR en db');
+xlabel('SNR en db'); ylabel('TEB');
 %% DEBUG
 N = 1;
 bks = bks(1, :);
@@ -138,5 +139,13 @@ subplot(1,2,1), plot(e(1,:)), subplot(1,2,2), plot(d(1,:))
 subplot(1,2,1), plot(r(1,:)), subplot(1,2,2), plot(f(1,:))
 %% YL2
 subplot(1,2,1), plot(t(2,:)), subplot(1,2,2), plot(g(1,:))
+%%
+subplot(1,2,1)
+plot((0:length(p)-1)/fe*1e6, p+0.5), xlabel('Temps (µs)'), ylabel('Amplitude'), title('p0(t)');
+subplot(1,2,2)
+plot((0:length(p)-1)/fe*1e6, p_adapt+0.5), xlabel('Temps (µs)'), ylabel('Amplitude'), title('p1(t)');
+%%
+rsl = zeros(1, 2*Ts*fe);
+rsl(1:(Ts/2*fe)) = 1/4 - 3 / 4 / Ts * [1:(Ts/2*fe)];
 
 

@@ -33,3 +33,8 @@ for i=1:l
 end
 
 hold on
+
+%%
+for i=1:length(VERMEULEN_Registres)
+    plane_pos_display(VERMEULEN_Registres(i));
+end
