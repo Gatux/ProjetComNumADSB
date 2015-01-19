@@ -398,17 +398,18 @@ Si le FTC est compris entre 9 et 22 (mais différent de 19), on extrait l'indicat
 
 \section{Résultats}
 
-La simulation du récepteur ADSB-B a permis d'étudier des données réelles obtenu à l'aide d'un récepteur.\\
+La simulation du récepteur ADS-B a permis d'étudier des données réelles obtenues à l'aide d'un récepteur.\\
 Tout d'abord le code a été testé sur des trames déjà démodulées. Ainsi on peut observer par exemple le décollage d'un avion :
-
 \begin{figure}[h]
 	\centering
 		\includegraphics[scale=0.6]{img/carte.png}
 			\caption{Données provenant du fichier $trames\_20141120.mat$}
 			\label{carte}
 \end{figure}
+L'avion représenté sur cette image avait comme nom \textit{AF255YO} et était à destination de Paris.\newline
+\newline
 
-Par la suite, il a fallu intégré la démodulation ce qui a permis de traité un flux réel de données provenant d'un récepteur radio. Le flux de données se présente sous forme d'un buffer de 2 millions de points correspondant à 0.5 seconde de temps de réception.
+Par la suite, il a fallu intégrer la démodulation ce qui a permis de traiter un flux réel de données provenant d'un récepteur radio. Le flux de données se présente sous forme d'un buffer de 2 millions de points correspondant à 0.5 seconde de temps de réception.
 
 \begin{figure}[h]
 	\centering
